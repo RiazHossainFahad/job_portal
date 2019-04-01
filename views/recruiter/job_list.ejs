@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-10" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Job Post List</title>
+
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+
+    <style>
+        .navbar {
+            margin: 10px;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+
+            </div>
+
+            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+
+                <table class="table table-bordered table-hover">
+                    <tr style="text-align: center">
+                        <td colspan="10" class="active">
+                            <h2>List of Job Posts</h2>
+                        </td>
+                    </tr>
+                    <% if(j_list != null ){%>
+                        <tr>
+                            <th>Job id</th>
+                            <th>Company Name</th>
+                            <th>Job Title</th>
+                            <th>Job Location</th>
+                            <th>Job Details</th>
+                            <th>Approval</th>
+                            <th>Action</th>
+                        </tr>
+                        <% for(var i=0; i < j_list.length; i++){ %>
+                            <tr>
+                                <td>
+                                    <%= j_list[i].j_id %>
+                                </td>
+                                <td>
+                                    <%= j_list[i].c_name %>
+                                </td>
+                                <td>
+                                    <%= j_list[i].j_title %>
+                                </td>
+                                <td>
+                                    <%= j_list[i].j_location %>
+                                </td>
+                                <td>
+                                    <%= j_list[i].j_detail %>
+                                </td>
+
+                                <% if(j_list[i].a_status ==0 ){%>
+                                    <td>
+                                        <b style="color:red"> Not Approved </b>
+                                    </td>
+
+                                    <%}else{%>
+                                        <td>
+                                            <b style="color:green">Approved</b>
+                                        </td>
+                                        <%}%>
+
+                                            <td>
+                                                <a href="/home-recruiter/recruiter-view_application/<%=j_list[i].j_id%>"> VIEW APPLICANTS</a> |
+                                                <a data-toggle="modal" href="#modal-edit-<%=j_list[i].j_id%>"> EDIT POST</a> |
+                                                <a data-toggle="modal" disabled href="#modal-delete-<%=j_list[i].j_id%>"> DELETE POST</a>
+                                            </td>
+                            </tr>
+
+
+                            <!-- Modal For edit post -->
+                            <div class="modal fade" id="modal-edit-<%=j_list[i].j_id%>">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <center>
+                                                <h4 class="modal-title">Edit Job Post</h4>
+                                            </center>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="col-2"></div>
+                                            <form action="/home-recruiter/edit-job/<%= j_list[i].j_id%>" method="POST" class="form-horizontal" role="form">
+
+                                                <div class="form-group">
+                                                    <label class="sr-only" for="">Company Name</label>
+                                                    <input type="text" class="form-control" name="c_name" placeholder="Enter the company name" value="<%= j_list[i].c_name%>" required>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="sr-only" for="">Job Title</label>
+                                                    <input type="text" class="form-control" name="j_title" placeholder="Enter the job title" value="<%= j_list[i].j_title%>" required>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="sr-only" for="">Location</label>
+                                                    <input type="text" class="form-control" name="j_loc" placeholder="Location of the job" value="<%= j_list[i].j_location%>" required>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <textarea name="j_detail" class="form-control" rows="3" placeholder="Enter the job details." required><%= j_list[i].j_detail%></textarea>
+                                                </div>
+                                                <center><button type="submit" class="btn btn-primary">Edit Post</button></center>
+                                            </form>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Modal For alert while deleting. -->
+                            <div class="modal fade" id="modal-delete-<%=j_list[i].j_id%>">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <center>
+                                                <h4 class="modal-title">Warning</h4>
+                                            </center>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            <center>
+                                                <span class="h5">Once clicking on delete, you can't undo it.</span><br>
+
+                                                <span class="h5" style="color:darkred">Do you want to delete?</span><br>
+                                                <a class="btn btn-danger" style="width:20%" href="/home-recruiter/delete-job_post/<%=j_list[i].j_id%>">Delete</a>
+                                            </center>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } }else{%>
+                                <tr>
+                                    <td>
+                                        <h3>
+                                            <%= error%>
+                                        </h3>
+                                    </td>
+                                </tr>
+                                <% } %>
+                                    <tr>
+                                        <td colspan="10"><a class="btn btn-info" style="width:20%;float: right;" href='/home-recruiter'>Back</a></td>
+                                    </tr>
+                </table>
+
+
+            </div>
+
+            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

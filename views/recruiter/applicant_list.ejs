@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-10" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Job Post List</title>
+
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+
+    <style>
+        .navbar {
+            margin: 10px;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+
+            </div>
+
+            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+
+                <table class="table table-bordered table-hover">
+                    <tr style="text-align: center">
+                        <td colspan="10" class="active">
+                            <h2>Application List</h2>
+                        </td>
+                    </tr>
+                    <% if(a_list != null ){%>
+                        <tr>
+                            <th>SL No</th>
+                            <th>Job Id</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Location</th>
+                            <th>Gender</th>
+                        </tr>
+                        <% for(var i=0; i < a_list.length; i++){ %>
+                            <tr>
+                                <td>
+                                    <%= i+1 %>
+                                </td>
+                                <td>
+                                    <%= a_list[i].j_id %>
+                                </td>
+                                <% for(var j=0; j < u_list.length; j++){
+                                    if(a_list[i].u_id == u_list[j].user_id){%>
+                                    <td>
+                                        <%= u_list[j].user_name %>
+                                    </td>
+                                    <td>
+                                        <%= u_list[j].user_email %>
+                                    </td>
+                                    <td>
+                                        <%= u_list[j].user_location %>
+                                    </td>
+                                    <td>
+                                        <%= u_list[j].user_gender %>
+                                    </td>
+                                    <%}}%>
+                            </tr>
+                            <% } }else{%>
+                                <tr>
+                                    <td>
+                                        <h3>
+                                            <%= error%>
+                                        </h3>
+                                    </td>
+                                </tr>
+                                <% } %>
+                                    <tr>
+                                        <td colspan="10"><a class="btn btn-info" style="width:20%;float: right;" href='/home-recruiter/recruiter-job_post'>Back</a></td>
+                                    </tr>
+                </table>
+
+
+            </div>
+
+            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

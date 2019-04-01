@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-6" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Available Jobs</title>
+
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+
+    <style>
+        h2,
+        h4,
+        h5 {
+            text-align: center;
+        }
+        
+        #first0 {
+            margin-top: 1%;
+        }
+        
+        #apply {
+            float: right;
+            margin: 2%
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+
+    </div>
+
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <table class="table">
+            <% if(jb_info != null){%>
+                <%for(var i=0;i< jb_info.length; i++){%>
+                    <tr>
+                        <td>
+                            <div id="first<%=i%>" class='panel panel-info'>
+                                <div>
+
+                                    <center>
+                                        <h4>
+                                            <strong><%=jb_info[i].c_name%></strong> is looking For
+                                            <strong><%=jb_info[i].j_title%></strong>
+                                        </h4>
+                                    </center>
+
+                                    <label class="h5"><Strong>Location: </Strong></label>
+                                    <span><i><%=jb_info[i].j_location%></i></span><br>
+
+                                    <label class="h5"><Strong>Job Description:</Strong></label><br>
+                                    <span><%=jb_info[i].j_detail%></span><br>
+
+                                    <% if(u_type != null) {%>
+                                        <a id="apply" data-toggle="modal" class="btn btn-success" href="#modal-apply-<%=jb_info[i].j_id%>">Apply</a>
+
+                                        <!-- Modal For alert while deleting. -->
+                                        <div class="modal fade" id="modal-apply-<%=jb_info[i].j_id%>">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                        <center>
+                                                            <h4 class="modal-title">Warning</h4>
+                                                        </center>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form action="/home-applicant/apply-job/<%=jb_info[i].j_id%>" method="POST" class="form" role="form">
+                                                            <center>
+                                                                <span class="h5">Once clicking on apply, you can't undo it.</span><br>
+
+                                                                <span class="h5" style="color:blue">Do you want to apply?</span><br>
+                                                                <button type="submit" class="btn btn-success" style="width:20%" href="">Confirm</button>
+                                                            </center>
+                                                        </form>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <%}else{%>
+                                            <a id="apply" class="btn btn-success" href="/login">Apply</a>
+                                            <%}%>
+                                </div>
+                            </div>
+                            <%}}else{%>
+                                <h2>
+                                    <%= error%>
+                                </h2>
+                                <%}%>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <% if(u_type != null) {%>
+                                <% if(u_type == 'Applicant'){%>
+                                    <a id="apply" class="btn btn-info" style="width:20%;float: right;" href="/home-applicant">Previous page</a>
+                                    <%}}else{%>
+                                        <a id="apply" class="btn btn-info" style="width:20%;float: right;" href="/">Previous page</a>
+                                        <%}%>
+                        </td>
+                    </tr>
+        </table>
+
+    </div>
+
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 ">
+    </div>
+
+</body>
+
+</html>
